@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="spoiler.css">
+	<title>Спойлеры</title>
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<div data-spoilers data-one-spoiler class="block block-1">
+			<div class="block__item">
+				<button tabindex="-1" type="button" data-spoiler class="block__title">Обычный спойлер №1</button>
+				<div class="block__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque totam explicabo aperiam sapiente ipsam,
+					necessitatibus illum inventore, id at obcaecati quaerat deleniti earum? Rem, necessitatibus vel
+					distinctio beatae neque eaque.
+				</div>
+			</div>
+			<div class="block__item">
+				<button tabindex="-1" type="button" data-spoiler class="block__title">Обычный спойлер №2</button>
+				<div class="block__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque totam explicabo aperiam sapiente ipsam,
+					necessitatibus illum inventore, id at obcaecati quaerat deleniti earum? Rem, necessitatibus vel
+					distinctio beatae neque eaque.
+				</div>
+			</div>
+			<div class="block__item">
+				<button tabindex="-1" type="button" data-spoiler class="block__title">Обычный спойлер №3</button>
+				<div class="block__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque totam explicabo aperiam sapiente ipsam,
+					necessitatibus illum inventore, id at obcaecati quaerat deleniti earum? Rem, necessitatibus vel
+					distinctio beatae neque eaque.
+				</div>
+			</div>
+		</div>
+		<div data-spoilers="650,min" class="block block-2">
+			<div class="block__item">
+				<button tabindex="-1" type="button" data-spoiler class="block__title">Спойлер работает на
+					экранах>=650px</button>
+				<div class="block__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque totam explicabo aperiam sapiente ipsam,
+					necessitatibus illum inventore, id at obcaecati quaerat deleniti earum? Rem, necessitatibus vel
+					distinctio beatae neque eaque.
+				</div>
+			</div>
+		</div>
+		<div data-spoilers="800,max" class="block block-3">
+			<div class="block__item">
+				<button tabindex="-1" type="button" data-spoiler class="block__title">Спойлер #1 работает на
+					экранах меньше или = 800px</button>
+				<div class="block__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque totam explicabo aperiam sapiente
+					ipsam,
+					necessitatibus illum inventore, id at obcaecati quaerat deleniti earum? Rem, necessitatibus vel
+					distinctio beatae neque eaque.
+				</div>
+			</div>
+			<div class="block__item">
+				<button tabindex="-1" type="button" data-spoiler class="block__title">Спойлер #1 работает на
+					экранах меньше или = 800px</button>
+				<div class="block__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque totam explicabo aperiam sapiente
+					ipsam,
+					necessitatibus illum inventore, id at obcaecati quaerat deleniti earum? Rem, necessitatibus vel
+					distinctio beatae neque eaque.
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="spoiler.js"></script>
+
+</body>
+
+</html>

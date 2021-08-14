@@ -1,0 +1,233 @@
+/* обнуление Общие параметры */
+@import "null";
+/*Обнуление*/
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+*,
+*:before,
+*:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+:focus,
+:active {
+	outline: none;
+}
+a:focus,
+a:active {
+	outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+	display: block;
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	font-size: 100%;
+	line-height: 1;
+	font-size: 14px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+input,
+button,
+textarea {
+	font-family: inherit;
+}
+
+input::-ms-clear {
+	display: none;
+}
+button {
+	cursor: pointer;
+}
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+a,
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+ul li {
+	list-style: none;
+}
+img {
+	vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: inherit;
+	font-weight: 400;
+}
+
+.wrapper {
+	width: 100%;
+	min-height: 100%;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 1 */
+.header {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
+.header__wrapper {
+	position: fixed; /*  шапка будет прилипать при прокрутке */
+	width: 100%;
+	left: 0;
+	top: 0;
+	z-index: 50;
+}
+/* 3 */
+.header__body {
+	display: flex; /* все блоки тела шапки (контейнера с элементами) выстроятся в ряд */
+	align-items: center;
+	padding: 5px 0;
+	min-height: 125px; /* формируем высоту шапки */
+	position: relative;
+}
+/* 4 */
+.header__main {
+	display: flex;
+	align-items: center;
+	flex: 0 0 494 * /* 1/1240 */ 0.00080645 * 100%; /* ширину блока записали в процентном соотношении: (ширина блока/ширину ограничивающего контейнера * 100%) */
+	/* здесь запишем */
+	min-width: 494px;
+}
+/* 5 */
+.header__logo {
+	padding-left: 10px;
+	position: relative;
+	z-index: 5;
+	font-size: 24px;
+	line-height: 29 * /* 1/24 */ 0.0417 * 100%; /* (высота строки/высота шрифта)*100% */
+	font-weight: 700;
+	color: rgb(70, 119, 5);
+}
+/* 6 */
+.menu {
+	flex: 0 1 420px; /* цифра 1-этим позволии меню уменьшаться, также указали засстояние между логотипом и поиском */
+	/* здесь запишем */
+	min-width: 420px;
+}
+/* 7 */
+/* список меню */
+
+@media (min-width: 768px) {
+	.menu__list {
+		display: flex; /* на этом разрешении элементы списка меню выстроятся в ряд */
+		flex-wrap: wrap; /* Блоки могут выстраиваются в несколько строк, если не помещаются в одну */
+		justify-content: space-evenly; /*  Флексы распределяются так, что расстояние между любыми двумя соседними элементами, а также перед первым и после последнего, было одинаковым. */
+	}
+}
+/* 8 - временно скрыли пункты выпадающего меню*/
+/* выпадающее меню */
+/* .menu__sub-list {
+	display: none;
+} */
+/* 9 */
+/* пункты меню (оболочка для каждого из них) */
+.menu__item {
+	display: flex; /* пункты меню станут в один ряд со стрелочками */
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap; /* разрешили элементам ломать строй, что бы не находили друг на друга */
+	margin: 0 3px;
+	padding: 5px 0;
+	position: relative;
+	font-size: 16px;
+}
+/* 17 */
+.menu__item:hover .menu__sub-list {
+	/* покажем выпадающее меню при наведении курсором (на устройствах, оборудованных мышью) */
+	opacity: 1;
+	transform: translate(0px, 0px);
+	visibility: visible;
+	pointer-events: auto; /* позволяет убрать реакцию элемента на события мыши. Свойство принимает два значения. Значение none убирает реакцию, а значение auto заставляет элемент вести себя как обычно (значение по умолчанию). */
+}
+/* 18 */
+/* перекрасим пункты меню первого уровня при наведении */
+.menu__item:hover .menu__link {
+	color: rgb(248, 11, 11);
+}
+
+/* 10 */
+/* ссылки строки меню */
+.menu__link {
+	font-weight: 500;
+	color: inherit;
+	transition: color 0.3s ease 0s;
+}
+/* 11 */
+/* стрелки */
+.menu__arrow {
+	margin: 0 0 0 8px;
+	transition: all 0.3s ease 0s;
+	font-size: 10px;
+}
+/* 12 */
+/*  выпадающее меню */
+.menu__sub-list {
+	position: relative;
+	background-color: rgb(255, 230, 8);
+	padding: 3px;
+	flex: 1 1 100%;
+}
+@media (min-width: 768px) {
+	.menu__sub-list {
+		/* 16 */
+		/*  скроем выпадающее меню, ( а покажем в .menu__item )*/
+		opacity: 0;
+		transition: all 0.3s ease 0s;
+		transform: translate(0px, 10px);
+		visibility: hidden; /* Элемент становится невидимым или, правильнее сказать, полностью прозрачным, поскольку он продолжает участвовать в форматировании страницы. */
+		/* 13 */
+		min-width: 200px;
+		left: 0;
+		position: absolute;
+		top: 100%;
+	}
+}
+
+/* 14 */
+/* ссылка в выпадающем меню*/
+.menu__sub-link {
+	color: #fff;
+	line-height: 120%;
+	font-size: 20px;
+}
+/* перекрасили ссылки в выпадающем меню при наведении */
+.menu__sub-link:hover {
+	color: rgb(6, 30, 240);
+}
+
+/* 15 */
+/* пункты выпадающего меню */
+/* для всех элементов списка, кроме последнего */
+.menu__sub-item:not(:last-child) {
+	margin: 0 0 5px 0;
+}
