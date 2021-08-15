@@ -1,11 +1,14 @@
 "use strict"
 
 // SPOILERS
+
 /* получаем коллекцию всех объектов, у которых есть data-атрибут: spoilers */
 const spoilersArray = document.querySelectorAll('[data-spoilers]');
+
 /* проверяем есть ли такие объкты */
 if (spoilersArray.length > 0) {
 	/* переведём все полученные объкты(коллекцию) в массив и разделим на 2-ва массива: с простыми спойлерами и спойлерами, работающими по определённым условиям: */
+
 	// Получим обычные спройлеры:
 	const spoilersRegular = Array.from(spoilersArray).filter(function (item, index, self) {
 		//проверим осутствие параметров у атрибута data-spoilers объектов
@@ -17,7 +20,8 @@ if (spoilersArray.length > 0) {
 	if (spoilersRegular.length > 0) {
 		initSpoilers(spoilersRegular);
 	}
-	// Получим спройлеров с медиа-запросами:
+
+	// Получим спройлеры с медиа-запросами:
 	const spoilersMedia = Array.from(spoilersArray).filter(function (item, index, self) {
 		return item.dataset.spoilers.split(",")[0];
 	});
@@ -72,11 +76,201 @@ if (spoilersArray.length > 0) {
 					return true;
 				}
 			});
-			// Создадим событие,которое будет отрабатывать при достижении условия брейкпоинта
-			matchMedia.addEventListener(function () {
+
+			// Создадим событие,которое будет отрабатывать при достижении условия брейкпоинта:
+			matchMedia.addListener(function () {
 				initSpoilers(spoilersArray, matchMedia);
 			});
-			initSpoilers(spoilersArray, matchMedia);
+			initSpoilers(spoilersArray, matchMedia); // функция так же отработает при загрузке страницы
 		});
 	}
+
+	// Функции (методы) для работы спойлеров:
+
+	// ИНИЦИАЛИЗАЦИЯ
+	function initSpoilers(spoilersArray, matchMedia = false/* по умолчанию */) {
+		/* пробежимся по каждому элементу(spoilersBlock) массива*/
+		spoilersArray.forEach(spoilersBlock => {
+			/* сделаем проверку: если matchMedia не false(имеет значение), то присваиваем имя item объкту spoilersBlock, иначе оставляем без именений*/
+			spoilersBlock = matchMedia ? spoilersBlock.item : spoilersBlock;
+			/* сделаем условное ветвление: если наш брейкпоинт сработал(matchMedia.matches вернёт false) или были переданы обычные спойлеры(без медиа-запросов) т.е. matchMedia НЕ true(false), тогда: */
+			if (matchMedia.matches || !matchMedia) {
+				/* оболочке спойлера присваивается технический класс '_init': */
+				spoilersBlock.classList.add('_init');
+				/* отправляем данный объект в функцию: */
+				initSpoilerBody(spoilersBlock);
+				/* На объкт spoilersBlock вешаем событие "click" и вызываем функцию: */
+				spoilersBlock.addEventListener("click", setSpoilerAction);
+			} else {
+				/* иначе */
+				/* отбираем у блока технический класс '_init': */
+				spoilersBlock.classList.remove('_init');
+				/* передаём в функцию объкт и параметр false: */
+				initSpoilerBody(spoilersBlock, false);
+				/* убираем событие "click" на блоке: */
+				spoilersBlock.removeEventListener("click", setSpoilerAction);
+			}
+		});
+	}
+	// РАБОТА С КОНТЕНТОМ СПОЙЛЕРА
+	function initSpoilerBody(spoilersBlock, hideSpoilerBody = true/* по умолчанию*/) {
+		/* получим все заголовки спойлеров внутри конкретного блока: */
+		const spoilerTitles = spoilersBlock.querySelectorAll('[data-spoiler]');
+		/* проверяем есть ли у нас такие заголовки: */
+		if (spoilerTitles.length > 0) {
+			spoilerTitles.forEach(spoilerTitle => {
+				if (hideSpoilerBody/* true */) {
+					/* у этого заголовка убираем атрибут 'tabindex'(возможность перехода по данным заголовкам по щелчку на Tab): */
+					spoilerTitle.removeAttribute('tabindex');
+					/* проверка: есть ли у заголовка НЕТ класса '_active': */
+					if (!spoilerTitle.classList.contains('_active')) {
+						/* тогда мы скрываем контентную часть: обращаемся к заголовку spoilerTitle, далее к nextElementSibling(следующий элемент после заголовка) и используем атрибут hidden со значением true: */
+						spoilerTitle.nextElementSibling.hidden = true;
+					}
+				} else {
+					/* Если у нас не сработал брейкпоинт, нам нужно отобразить спойлер в виде обычного блока: */
+					/* тогда добабляем атрибут tabindex со значением -1 */
+					spoilerTitle.setAttribute('tabindex', '-1');
+					/* показываем контентные блоки, если они бвли скрыты: */
+					spoilerTitle.nextElementSibling.hidden = false;
+				}
+			});
+		}
+	}
+	/* добавим функцию, которая исполняется при щелчке на заголовке спойлера */
+	function setSpoilerAction(e) {
+		// Используем делегирование событий
+		/* В константу el получаем нажатый объект: */
+		const el = e.target;
+		/* проверяем есть ли у самого объкта атрибут data-spoiler или у ближайшего родителя*/
+		if (el.hasAttribute('data-spoiler') || el.closest('[data-spoiler]')) {
+			const spoilerTitle = el.hasAttribute('data-spoiler') ? el : el.closest('[data-spoiler]');
+			/* получаем в константу ближайший родительский блок данного спойлера */
+			const spoilersBlock = spoilerTitle.closest('[data-spoilers]');
+			/* в константу сохраняем результат проверки: нужно ли добавлять данному блоку функционал аккордеона или нет: */
+			const oneSpoiler = spoilersBlock.hasAttribute('data-one-spoiler') ? true : false;
+			/* проверка: есть ли у родителя в данный момент какие-нибудь объкты внутри с классом '._slide': */
+			if (!spoilersBlock.querySelectorAll('._slide').length) {
+				/* проверка на аккордион: если oneSpoiler=true и у нажатой кнопки нет класса '_active',тогда нам нужно все остальные спойлеры скрыть(используем функцию hideSpoilersBody, в которую передаём родительский объект): */
+				if (oneSpoiler && !spoilerTitle.classList.contains('_active')) {
+					hideSpoilersBody(spoilersBlock);
+				}
+				spoilerTitle.classList.toggle('_active');
+				_slideToggle(spoilerTitle.nextElementSibling, 500);
+			}
+			e.preventDefault();
+		}
+	}
+	function hideSpoilersBody(spoilersBlock) {
+		/* в константу получим активный(открытый) спойлер внутри родительского объекта: */
+		const spoilerActiveTitle = spoilersBlock.querySelector('[data-spoiler]._active');
+		/* если такой есть: */
+		if (spoilerActiveTitle) {
+			/* убираем класс _active и скрываем все элементы */
+			spoilerActiveTitle.classList.remove('_active');
+			_slideUp(spoilerActiveTitle.nextElementSibling, 500);
+		}
+	}
 }
+//=======================================================================================================================
+
+// SlideToggle
+
+let _slideUp = (target, duration = 500) => {
+	target.style.transitionProperty = 'height, margin, padding';
+	target.style.transitionDuration = duration + 'ms';
+	target.style.height = target.offsetHeight + 'px';
+	target.offsetHeight;
+	target.style.overflow = 'hidden';
+	target.style.height = 0;
+	target.style.paddingTop = 0;
+	target.style.paddingBottom = 0;
+	target.style.marginTop = 0;
+	target.style.marginBottom = 0;
+	window.setTimeout(() => {
+		target.style.display = 'none';
+		target.style.removeProperty('height');
+		target.style.removeProperty('padding-top');
+		target.style.removeProperty('padding-bottom');
+		target.style.removeProperty('margin-top');
+		target.style.removeProperty('margin-bottom');
+		target.style.removeProperty('overflow');
+		target.style.removeProperty('transition-duration');
+		target.style.removeProperty('transition-property');
+		target.classList.remove('_slide');
+	}, duration);
+}
+let _slideDown = (target, duration = 500) => {
+	target.style.removeProperty('display');
+	let display = window.getComputedStyle(target).display;
+	if (display === 'none')
+		display = 'block';
+
+	target.style.display = display;
+	let height = target.offsetHeight;
+	target.style.overflow = 'hidden';
+	target.style.height = 0;
+	target.style.paddingTop = 0;
+	target.style.paddingBottom = 0;
+	target.style.marginTop = 0;
+	target.style.marginBottom = 0;
+	target.offsetHeight;
+	target.style.transitionProperty = "height, margin, padding";
+	target.style.transitionDuration = duration + 'ms';
+	target.style.height = height + 'px';
+	target.style.removeProperty('padding-top');
+	target.style.removeProperty('padding-bottom');
+	target.style.removeProperty('margin-top');
+	target.style.removeProperty('margin-bottom');
+	window.setTimeout(() => {
+		target.style.removeProperty('height');
+		target.style.removeProperty('overflow');
+		target.style.removeProperty('transition-duration');
+		target.style.removeProperty('transition-property');
+		target.classList.remove('_slide');
+	}, duration);
+}
+let _slideToggle = (target, duration = 500) => {
+	if (!target.classList.contains('_slide')) {
+		target.classList.add('_slide');
+		if (window.getComputedStyle(target).display === 'none') {
+			return _slideDown(target, duration);
+		} else {
+			return _slideUp(target, duration);
+		}
+	}
+}
+/* let spollers = document.querySelectorAll("._spoller");
+let spollersGo = true;
+if (spollers.length > 0) {
+	for (let index = 0; index < spollers.length; index++) {
+		const spoller = spollers[index];
+		spoller.addEventListener("click", function (e) {
+			if (spollersGo) {
+				spollersGo = false;
+				if (spoller.classList.contains('_spoller-992') && window.innerWidth > 992) {
+					return false;
+				}
+				if (spoller.classList.contains('_spoller-768') && window.innerWidth > 768) {
+					return false;
+				}
+				if (spoller.closest('._spollers').classList.contains('_one')) {
+					let curent_spollers = spoller.closest('._spollers').querySelectorAll('._spoller');
+					for (let i = 0; i < curent_spollers.length; i++) {
+						let el = curent_spollers[i];
+						if (el != spoller) {
+							el.classList.remove('_active');
+							_slideUp(el.nextElementSibling);
+						}
+					}
+				}
+				spoller.classList.toggle('_active');
+				_slideToggle(spoller.nextElementSibling);
+
+				setTimeout(function () {
+					spollersGo = true;
+				}, 500);
+			}
+		});
+	}
+} */
