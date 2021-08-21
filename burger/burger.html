@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="burger.css">
+	<title>Меню burger</title>
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- ШАПКА -->
+		<header class="header">
+			<div class="header__container">
+				<a href="#" class="header__logo"></a>
+				<div class="header__menu menu">
+					<!-- иконка меню-бургер -->
+					<div class="menu__icon">
+						<span></span>
+					</div>
+					<!-- общая оболочка меню -->
+					<nav class="menu__body">
+						<ul class="menu__list">
+							<!-- добавим ссылкам меню data-атрибут: data-goto (передаём в JS данные) Передаём класс к которому надо плавно прокртить при нажатии на ссылку -->
+							<li><a data-goto=".page__section-1" href="#" class="menu__link">Раздел № 1</a></li>
+							<li><a data-goto=".page__section-2" href="#" class="menu__link">Раздел № 2</a></li>
+							<li><a data-goto=".page__section-3" href="#" class="menu__link">Раздел № 3</a></li>
+							<!-- ссылка на другие страницы -->
+							<li>
+								<a href="#" class="menu__link">Страница № 1</a>
+								<!-- стрелочка рядом с ссылкой (для мобильных устройств) для открытия подменю -->
+								<span class="menu__arrow"></span>
+								<!-- подменю -->
+								<ul class="menu__sub-list">
+									<li>
+										<a href="#" class="menu__sub-link">Раздел страницы № 1</a>
+									</li>
+									<li>
+										<a href="#" class="menu__sub-link">Раздел страницы № 2</a>
+									</li>
+									<li>
+										<a href="#" class="menu__sub-link">Раздел страницы № 3</a>
+									</li>
+								</ul>
+							</li>
+							<li><a href="#" class="menu__link">Страница № 2</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+
+
+		<!-- КОНТЕНТ -->
+		<main class="page">
+			<section class="page__section page__section-1">
+				<h1 class="page__title">На все времена</h1>
+				<div class="page__text">
+					<p> Жизнь - это то, что с тобой происходит, пока ты строишь планы</p>
+					<p>Логика может привести Вас от пункта А к пункту Б, а воображение — куда угодно</p>
+					<p>Победа - это еще не все, все - это постоянное желание побеждать</p>
+					<p>Начните оттуда, где вы сейчас находитесь. Используйте то, что у вас есть и делайте все, что можете</p>
+					<p>Когда закрывается одна дверь к счастью, тут же открывается другая. Но мы часто так долго смотрим на
+						первую, что не замечаем вторую</p>
+				</div>
+			</section>
+			<section class="page__section page__section-2">
+				<h2 class="page__sub-title">Про любовь</h2>
+				<div class="page__text">
+					<p>Нужно иметь что-то общее, чтобы понимать друг друга, и чем-то отличаться, чтобы любить друг друга</p>
+					<p>Твоё обнажённое тело должно принадлежать тому, кто полюбит твою обнажённую душу</p>
+					<p>Каким смелым и самоуверенным становится тот, кто обретает убеждённость, что его любят</p>
+					<p>Какая это роскошь — в любую минуту иметь возможность обнять любимого человека...</p>
+					<p>— Как тебя понимать?
+						— Понимать меня необязательно. Обязательно любить и кормить вовремя</p>
+				</div>
+			</section>
+			<section class="page__section page__section-3">
+				<h2 class="page__sub-title">Смешные цитаты</h2>
+				<div class="page__text">
+					<p> Теория — это когда все известно, но ничего не работает. Практика — это когда все работает, но никто
+						не знает почему. Мы же объединяем теорию и практику: ничего не работает... и никто не знает почему!
+					</p>
+					<p>Меня вообще-то сложно удивить... О! Синяя машина!</p>
+					<p> У женщины две великие задачи: возбуждать и успокаивать.</p>
+					<p>Звонил будильник, но я была недоступна</p>
+					<p>Юмор и любовь — два самых мощных болеутоляющих</p>
+				</div>
+			</section>
+
+		</main>
+
+	</div>
+	<script src="burger.js"></script>
+</body>
+
+</html>
