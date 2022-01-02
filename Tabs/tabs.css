@@ -1,0 +1,180 @@
+/*Обнуление*/
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+*,
+*:before,
+*:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+:focus,
+:active {
+	outline: none;
+}
+a:focus,
+a:active {
+	outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+	display: block;
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	font-size: 100%;
+	line-height: 1;
+	font-size: 14px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+input,
+button,
+textarea {
+	font-family: inherit;
+}
+
+input::-ms-clear {
+	display: none;
+}
+button {
+	cursor: pointer;
+}
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+a,
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+ul li {
+	list-style: none;
+}
+img {
+	vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: inherit;
+	font-weight: 400;
+}
+
+/* ============================================================================================================================== */
+
+.wrapper {
+	min-height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.content {
+	padding: 50px 0;
+	max-width: 1000px;
+	margin: 0 auto;
+}
+.tabs {
+	margin: 0 0 35px 0;
+}
+.tabs__items {
+	display: flex;
+}
+.tabs__item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 0 1 33.333%;
+	height: 50px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+/* 12- покажем название вкладок поверх псевдоэлемена before: */
+.tabs__item span {
+	position: relative;
+	z-index: 2;
+}
+/* .tabs__body {
+} */
+.tabs__block {
+	position: relative;
+	padding: 15px;
+	font-size: 16px;
+	line-height: 20px;
+	color: #ffffff;
+	/* 7- скроем вкладки изначально: */
+	display: none;
+}
+/* 8- Псевдокласс :target применяется к целевому элементу (.tabs__block- содержимое вкладки), иными словами, к идентификатору, который указан в адресной строке браузера: */
+.tabs__block:target {
+	/* 9- покажем содержимое вкладки при щелчке касании на заголовке ( в адресе которого указан путь к вкладке): */
+	display: block;
+}
+/* 10- окрасим название вкладок в цвет самих вкладок: */
+.tabs__block::before {
+	content: "";
+	height: 50px; /* высоту указали такую же как у .tabs__item (элемента управления вкладками) */
+	width: 33.333%; /* ширину указали такую же как у .tabs__item (элемента управления вкладками) */
+	position: absolute; /* позиционируем относительно блоков .tabs__block */
+	top: -50px;
+}
+
+.tabs__block:nth-child(1) {
+	background-color: #eb8698;
+}
+/* 11- окрасим псевдоэлемент before в цвета соответствующих элементов и указываем положение, относительно элемента: */
+.tabs__block:nth-child(1)::before {
+	background-color: #eb8698;
+	left: 0;
+}
+
+.tabs__block:nth-child(2) {
+	background-color: #9278aa;
+}
+.tabs__block:nth-child(2)::before {
+	background-color: #9278aa;
+	left: 33.333%;
+}
+
+.tabs__block:nth-child(3) {
+	background-color: #97c67d;
+}
+.tabs__block:nth-child(3)::before {
+	background-color: #97c67d;
+	right: 0;
+}
+
+/* 13- адаптируем: */
+@media (max-width: 425px) {
+	/* 14- обратимся к управляющему элементу (названию вкладок) */
+	.tabs__item span {
+		display: block;
+		padding: 0 5px;
+		width: 100px;
+		/* white-space: nowrap; */
+		text-align: center;
+		overflow: hidden;
+		font-size: 12px;
+		text-overflow: ellipsis;
+	}
+}
+
+.text {
+}

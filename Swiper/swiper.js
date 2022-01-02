@@ -155,7 +155,7 @@ let myImageSlider = new Swiper('.image-slider', {  // Присвоили сла�
 
 	/* поток */
 	//effect: 'coverflow', // установить slidesPerView: 3
-	/* Дополнение к 'cube' */
+	/* Дополнение к 'coverflow' */
 	//coverflowEffect: {
 	/* угол */
 	//slideShadows: true,
