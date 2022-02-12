@@ -1,0 +1,26 @@
+// открываем модальное окно кодом js:
+
+1- в popup.html подключим: 
+<script src="js/popup.js"></script>
+2- в popup.html скроем:
+<a href="#header" class="popup__area"></a>
+
+3- в popup.css поменяем:
+/* .popup:target */
+.popup.open {
+	opacity: 1;
+	visibility: visible;
+}
+==========================================================================================================
+/* .popup:target .popup__content */
+.popup.open .popup__content {
+	/* transform: translate(0, 0); */
+	transform: perspective(600px) translate(0, 0) rotateX(0deg);
+	opacity: 1;
+}
+===========================================================================================================
+
+4- подключим popup.js файле popup.html
+
+5- в popup.html добавим класс close-popup закрывающему крестику:
+	<a href="#header" class="popup__close close-popup">X</a>
