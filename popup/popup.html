@@ -23,6 +23,7 @@
 				<a href="#" class="header__logo"></a>
 				<!-- в ссылке прописали id="popup" попапа, который хотим открывать нажатием на ссылку (тем самым отправляя этому попапу псевдокласс target) -->
 				<a href="#popup" class="header__phone popup-link">Попап №1</a>
+				<a href="#popup_2" class="header__phone popup-link">Попап №2</a>
 			</div>
 		</header>
 		<div class="content">
@@ -115,7 +116,7 @@
 		</div>
 	</div>
 
-	<!-- Пишем попап: -->
+	<!-- Пишем попапы: -->
 	<div id="popup" class="popup">
 
 		<!-- добавили ссылку в которой ссылаемся на фиксированную шапку с id="header" (чтобы при нажатии на область вокруг модального окна, это окно закрывалось ) -->
@@ -169,7 +170,7 @@
 				<a href="#header" class="popup__close close-popup">X</a>
 				<!-- Контент попапа: -->
 				<div class="popup__title">Это модальное окно №2</div>
-				<div class="popup__text"><a href="#popup_2" class="header__phone popup-link">Попап №2</a>
+				<div class="popup__text"><a href="#popup" class="header__phone popup-link">Попап №1</a>
 					Мужчины, будьте бережнее к женщинам,
 					Они даются Богом как пророчество,
 					Когда вокруг зима и всё заснежено —
@@ -212,6 +213,26 @@
 
 					Алеся Синеглазая
 					2022
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- при клике на картинке -->
+	<div id="image" class="popup">
+
+		<!-- добавили ссылку в которой ссылаемся на фиксированную шапку с id="header" (чтобы при нажатии на область вокруг модального окна, это окно закрывалось ) -->
+		<!-- <a href="#header" class="popup__area"></a> -->
+		<!-- тело попапа: -->
+		<div class="popup__body">
+
+			<!-- Составляющие попапа: -->
+			<div class="popup__content popup__content--image">
+
+				<!-- закрывающая кнопка (ссылка) в которой также ссылаемся на фиксированную шапку с id="header" (чтобы при закрытии модального окна, не возвращаться на начало страницы) -->
+				<a href="#header" class="popup__close close-popup">X</a>
+				<!-- Контент попапа: -->
+				<div class="popup__image">
+					<img src="img/алёна.jpg" alt=""> <!-- ссылка на попап уже есть выше в content__body -->
 				</div>
 			</div>
 		</div>

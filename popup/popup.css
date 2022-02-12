@@ -22,7 +22,7 @@ body {
 }
 
 body.lock {
-	overflow: hidden;
+	overflow: hidden; /* по классу lock убирается скролл */
 }
 
 a {
@@ -177,6 +177,15 @@ p {
 	/* transform: translate(0, -100%); */
 	/* эффуктная анимация с поворотом контентной части попапа: */
 	transform: perspective(600px) translate(0, -100%) rotateX(45deg);
+}
+
+/* для попапа с картинкой */
+.popup__content--image {
+	padding: 0;
+}
+.popup__image img {
+	max-width: 100%; /* чтобы картинка была адаптивной */
+	vertical-align: top; /* убрали белую полосу внизу картинки */
 }
 
 /* закрывающая кнопка */

@@ -1,14 +1,15 @@
 const popupLinks = document.querySelectorAll('.popup-link'); // получаем все кнопки, которые открывают окно
 const body = document.querySelector('body'); // получаем body - для блокировки скролла
-const lockPadding = document.querySelectorAll('.lock-padding'); // получаем все объкты с классом lock-padding (этот класс добвлется нами для фиксированных объектов, чтобы они при сокрытии скролла (в момент открытия попапа) не смещались)
+// получаем все объкты с классом lock-padding (этот класс добвлется нами для фиксированных объектов, чтобы они при сокрытии скролла (в момент открытия попапа) не смещались)
+const lockPadding = document.querySelectorAll('.lock-padding');
 
-console.log(popupLinks)
+/* console.log(popupLinks)
 console.log(body)
-console.log(lockPadding)
+console.log(lockPadding) */
 
 let unlock = true; // чтобы не было двойных нажатий
 
-const timeout = 800; // время анимации 	
+const timeout = 800; // время анимации (равен тому что прописан для элемента в css (здесь- transition: all 0.8s ease 0s;))	
 
 // Получаем все ссылки открытия окна
 if (popupLinks.length > 0) {
@@ -53,8 +54,10 @@ function popupOpen(curentPopup) {
 		curentPopup.classList.add('open'); // открываем попап 
 		// открывшемуся попапу вешаем событие при click
 		curentPopup.addEventListener('click', function (e) {
-			if (!e.target.closest('.popup__content')) { // если у нажатого объекта нету в родителях popup__content (это-тёмная область вокруг модального окна(попапа))
-				popupClose(e.target.closest('.popup')); // тогда мы popup закрываем кликом на тёмную область
+			// если у нажатого объекта нет в родителях popup__content (это-тёмная область вокруг модального окна(попапа))
+			if (!e.target.closest('.popup__content')) {
+				// тогда мы popup закрываем кликом на тёмную область
+				popupClose(e.target.closest('.popup'));
 			}
 		});
 	}
@@ -104,28 +107,63 @@ function bodyLock() {
 	}, timeout);
 }
 
+// функция показывающая скролл, только после того как закончится анимация (что бы не дёргался попап в момент закрытия)
+
 function bodyUnlock() {
 	setTimeout(function () {
-		for (let index = 0; index < lockPadding.length; index++) {
-			const el = lockPadding[index];
-			el.style.paddingRight = '0px';
+		if (lockPadding.length > 0) {
+			for (let index = 0; index < lockPadding.length; index++) {
+				const el = lockPadding[index];
+				el.style.paddingRight = '0px'; // убираем padding-right у элементов
+			}
 		}
-		body.style.paddingRight = '0px';
-		body.classList.remove('lock');
+		body.style.paddingRight = '0px'; // убираем padding-right у body
+		body.classList.remove('lock'); // убираем класс lock у body (по классу lock убирается скролл) после определённого timeout
 	}, timeout);
 
-	unlock = false;
+	unlock = false; // отключаем переменную (чтобы не было повторных нажатий)
 	setTimeout(function () {
-		unlock = true;
+		unlock = true; // после timeout снова включаем
 	}, timeout);
 }
 
+// Закрытие окна попап при нажатии клавиши Esc:
 
+// слушаем нажатие клавиш по всему документу
 document.addEventListener('keydown', function (e) {
+	// проверяем какая клавиша нажата и при нажатии клавиши имеющей код 27 (Esc)
 	if (e.which === 27) {
+		// попап закрывается (получаем открытый объект и отправляем его в функцию popupClose() )
 		const popupActive = document.querySelector('.popup.open');
 		popupClose(popupActive);
 	}
 });
 
-console.log("hello")
+//Функции полифилы (подгоняют определённые параметры (свойства: closest и matches) под старые браузеры):
+
+(function () {
+	// проверяем поддержку
+	if (!Element.prototype.closest) {
+		// реализуем
+		Element.prototype.closest = function (css) {
+			var node = this;
+			while (node) {
+				if (node.matches(css)) return node;
+				else node = node.parentElement;
+			}
+			return null;
+		};
+	}
+})();
+(function () {
+	// проверяем поддержку
+	if (!Element.prototype.matches) {
+		// определяем свойство
+		Element.prototype.matches = Element.prototype.matchesSelector ||
+			Element.prototype.webkitMatchesSelector ||
+			Element.prototype.mozMatchesSelector ||
+			Element.prototype.msMatchesSelector;
+	}
+})();
+
+/* console.log("hello") */
