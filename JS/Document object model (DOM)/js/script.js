@@ -106,6 +106,7 @@ if (confirm("Перейти на Wikipedia?")) {
 //                             parentNode
 
 // previousSibling               < DIV >               nextSibling
+
 //                              childNodes
 
 //                   firstChild            lastChild
@@ -124,7 +125,7 @@ const htmlElement = document.documentElement;
 // Другой часто используемый DOM-узел – узел тега <body>: document.body.
 
 // получим объект body со всем его содержимым:
-const bodyElement = document.body;
+const bodyElement1 = document.body;
 
 // <head> = document.head
 // Тег <head> доступен как document.head
@@ -133,7 +134,216 @@ const bodyElement = document.body;
 const headElement = document.head;
 
 console.log(htmlElement);
-console.log(bodyElement);
+console.log(bodyElement1);
 console.log(headElement);
 
+//-------------------------------------------------------------------------------------------------------------------//
 
+// Дети: childNodes, firstChild, lastChild
+
+// Здесь и далее мы будем использовать два принципиально разных термина:
+
+// 1) Дочерние узлы (или дети) – элементы, которые являются непосредственными детьми узла. Другими словами, элементы,
+// которые лежат непосредственно внутри данного. Например, <head> и <body> являются детьми элемента <html>.
+
+// 2) Потомки – все элементы, которые лежат внутри данного, включая детей, их детей и т.д.
+
+
+// - Свойства firstChild и lastChild обеспечивают быстрый доступ к первому и последнему дочернему элементу
+
+
+// Получив объект: body в константу, мы можем использовать этот объект как отправную точку для последующей навигации:
+// 1) получаем объект: body
+const bodyElement = document.body;
+
+// 2) получаем доступ к первому и последнему дочернему элементу(узлу) объекта:
+const firstChildNode = bodyElement.firstChild;
+const lastChildNode = bodyElement.lastChild;
+
+console.log(firstChildNode);
+console.log(lastChildNode);
+
+// - Коллекция childNodes содержит список всех детей, включая текстовые узлы:
+const childNodes = bodyElement.childNodes;
+
+console.log(childNodes); // NodeList(14) [text, comment, text, h1, text, comment, text, h2, text, div.lesson, text, h4#text, text, script]
+
+
+// Для проверки наличия дочерних узлов существует также специальная функция hasChildNodes():
+// выведем результат её работы для объекта:
+console.log(bodyElement.hasChildNodes()); // true
+
+//------------------------------------------------------------------------------------------------------------------//
+
+// DOM-коллекции
+
+// Как мы уже видели, childNodes похож на массив. На самом деле это не массив, а коллекция – особый перебираемый объект-псевдомассив.
+
+// И есть два важных следствия из этого:
+
+// - Для перебора коллекции мы можем использовать for..of:
+for (let node of document.body.childNodes) {
+
+	console.log(node); // покажет все узлы из коллекции
+}
+// Это работает, потому что коллекция является перебираемым объектом (есть требуемый для этого метод Symbol.iterator).
+
+// - Методы массивов не будут работать, потому что коллекция – это не массив:
+console.log(document.body.childNodes.filter); // undefined (у коллекции нет метода filter!)
+
+// Первый пункт – это хорошо для нас. Второй – бывает неудобен Если нам хочется использовать именно методы массива, то
+// мы можем создать настоящий массив из коллекции, используя Array.from:
+console.log(Array.from(document.body.childNodes).filter); // сделали массив
+
+// Особенности DOM-коллекции:
+
+// 1) DOM-коллекции – только для чтения
+// DOM-коллекции, и даже более – все навигационные свойства, перечисленные в этой главе, доступны только для чтения. Мы
+// не можем заменить один дочерний узел на другой, просто написав childNodes[i] = ....
+// (Для изменения DOM требуются другие методы. Мы увидим их в следующей главе)
+
+// 2) DOM-коллекции живые
+// Почти все DOM-коллекции, за небольшим исключением, живые. Другими словами, они отражают текущее состояние DOM.
+// (Если мы сохраним ссылку на elem.childNodes и добавим/удалим узлы в DOM, то они появятся в сохранённой коллекции автоматически)
+
+// 3) Не используйте цикл for..in для перебора коллекций
+// Коллекции перебираются циклом for..of. Некоторые начинающие разработчики пытаются использовать для этого цикл for..in.
+// Не делайте так. Цикл for..in перебирает все перечисляемые свойства. А у коллекций есть некоторые «лишние», редко используемые свойства, которые обычно нам не нужны
+
+//-------------------------------------------------------------------------------------------------------------------//
+
+// Соседи и родитель
+
+// Соседи – это узлы, у которых один и тот же родитель.
+
+//Например, здесь <head> и <body> соседи:
+/*
+<html>
+	<head>...</head>
+	<body>...</body>
+</html>
+*/
+// говорят, что <body> – «следующий» или «правый» сосед <head>, также можно сказать, что <head> «предыдущий» или «левый» сосед <body>.
+
+// Следующий узел того же родителя(следующий сосед) – в свойстве nextSibling, а предыдущий – в previousSibling.
+// Родитель доступен через parentNode
+
+// получим предыдущий узел объекта: body
+const previousSiblingNode = bodyElement.previousSibling;
+console.log(previousSiblingNode); // #text (текстовый узел, которого не видно в DOM-дереве (например перевод строки, пробел и т.д.))
+
+// получим следующий узел объекта: body 
+const nextSiblingNode = bodyElement.nextSibling;
+console.log(nextSiblingNode); // null (т.к. после body ничего нет (т.е. мы обращаемся к несуществующему объекту(узлу)))
+
+// получим родителя объекта: body
+const parentNode = bodyElement.parentNode;
+console.log(parentNode); // получим объект: html со всем содержимым
+
+//===================================================================================================================//
+
+// Навигация только по элементам (тегам, которые формируют структуру страницы)
+
+// Навигационные свойства, описанные выше, относятся ко всем узлам в документе. В частности, в childNodes находятся и
+// текстовые узлы и узлы-элементы и узлы-комментарии, если они есть.
+
+console.log(childNodes); // NodeList(14) [text, comment, text, h1, text, comment, text, h2, text, div.lesson, text, h4#text, text, script]
+
+// Но для большинства задач текстовые узлы и узлы-комментарии нам не нужны. Мы хотим манипулировать узлами-элементами,
+// которые представляют собой теги и формируют структуру страницы.
+
+const bodyChildren = bodyElement.children;
+console.log(bodyChildren); // HTMLCollection(5) [h1, h2, div.lesson, h4#text, script, text: h4#text]
+
+//Поэтому давайте рассмотрим дополнительный набор ссылок, которые учитывают только узлы-элементы:
+
+//                 document.documentElement < HTML >
+
+//	                         document.body
+//                         (if inside body)
+//------------------------------------------------------------------//
+
+//                             parentElement
+
+// previousElementSibling         < DIV >          nextElementSibling
+
+//                               children
+
+//             firstElementChild           lastElementChild
+
+// Эти ссылки похожи на те, что раньше, только в ряде мест стоит слово Element:
+// - children – коллекция детей, которые являются элементами.
+// - firstElementChild, lastElementChild – первый и последний дочерний элемент.
+// - previousElementSibling, nextElementSibling – соседи-элементы.
+// - parentElement – родитель-элемент
+
+// получим первый элемент объекта: body
+const firstChild = bodyElement.firstElementChild;
+console.log(firstChild); // тег h1
+
+// получим последний элемент объекта: body 
+const lastChild = bodyElement.lastElementChild;
+console.log(lastChild); // тег script
+
+
+// получим соседние и родительские элементы объекта: body
+
+// получим предыдущий элемент объекта: body
+const previousSibling = bodyElement.previousElementSibling;
+console.log(previousSibling); // тег head
+
+// получим следующий элемент объекта: body 
+const nextSibling = bodyElement.nextElementSibling;
+console.log(nextSibling); // null (т.к. после закрывающего тега: body ничего нет)
+
+// получим родителя объекта: body
+const parentElement = bodyElement.parentElement;
+console.log(parentElement); // получим объект: html со своим содержимым
+
+//====================================================================================================================//
+
+// Поиск произвольного элемента страницы
+
+// Свойства навигации по DOM хороши, когда элементы расположены рядом. А что, если нет? Как получить произвольный
+// элемент страницы? Для этого в DOM есть дополнительные методы поиска.
+
+
+// querySelectorAll
+
+// Самый универсальный метод поиска – это elem.querySelectorAll(css), он возвращает все элементы внутри elem, удовлетворяющие данному CSS-селектору:
+
+// Поиск по селектору класса (перед указанием имени класса необходимо поставить точку):
+const elementsOne = document.querySelectorAll('.lesson__list');
+console.log(elementsOne); // коллекция всех найденных объектов (здесь- один объект): NodeList [ul.lesson__list]
+
+// Поиск по селектору тега:
+const elementsTwo = document.querySelectorAll('li');
+console.log(elementsTwo); // коллекция всех найденных объектов c искомым тегом
+
+// Поиск по смешанному селектору тега и класса:
+const elementsThree = document.querySelectorAll('li.lesson__item-sub-list');
+console.log(elementsThree);
+
+// Поиск по тегу первого уровня вложенности:
+const elementsFour = document.querySelectorAll('.lesson__list>li');
+console.log(elementsFour);
+
+// Поиск по нескольким классам (ставим точку перед названием кдасса, между классами - запятую):
+const elementsFive = document.querySelectorAll('.lesson__list, .lesson__text');
+console.log(elementsFive);
+
+// Поиск по вложенным классам (запятая не ставится):
+const elementsSix = document.querySelectorAll('.lesson__text .lesson__list'); // здесь ищем все объекты с классом: lesson__list, котрорые находятся внутри класса lesson__text
+console.log(elementsSix);
+
+// Поиск по id(должен быть уникальным):
+const elementsSeven = document.querySelectorAll('#listItem');
+console.log(elementsSeven); // получим единственный элемент, расположенный в теге, которому присвоен искомый id
+
+// Поиск по атрибуту:
+const elementsEight = document.querySelectorAll('[data-item]');
+console.log(elementsEight); // получим все элементы, расположенные в тегах, которым присвоен искомый атрибут
+
+// Поиск по атрибуту со значением:
+const elementsNine = document.querySelectorAll('[data-item="85"]');
+console.log(elementsNine);
