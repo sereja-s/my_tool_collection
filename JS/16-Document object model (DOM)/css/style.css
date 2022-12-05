@@ -146,3 +146,10 @@ body {
 	font-size: 18px;
 	font-weight: 500;
 }
+.alert {
+	padding: 15px;
+	border: 1px solid #d6e9c6;
+	border-radius: 4px;
+	color: #3c763d;
+	background-color: #dff0d8;
+ }
