@@ -65,6 +65,7 @@ button {
 	font-weight: 700;
 	font-size: 16px;
 	cursor: pointer;
+	margin-top: 10px;
 }
 
 button:hover {
@@ -74,7 +75,9 @@ button:hover {
 button._active {
 	background-color: #7a956b;
 }
-
+.button__del {
+	margin: 10px;
+}
 .link {
 	font-size: 20px;
 	color: rgb(231, 231, 0);
@@ -133,6 +136,23 @@ button._active {
 	text-decoration: none;
 }
 
+@media (min-width: 425px) {
+	#menu {
+		display: flex;
+		margin: 10px;
+	}
+	}
+
+.menu-action {
+	margin: 10px;
+	background: chartreuse;
+}
+input {
+	padding: 5px;
+	font-size: 18px;	
+}
+
+
 .block-for-mouse {
 	padding: 15px;
 	font-size: 14px;
@@ -163,8 +183,6 @@ button._active {
 	cursor: grab;
 	background-color: #77608d;
 }
-.drag-field__item._active {
-}
 .drag-field__point {
 	width: 60px;
 	height: 60px;
@@ -178,8 +196,7 @@ button._active {
 	box-shadow: inset 0px 0px 10px 5px #333f2d;
 }
 
-.textarea {
-}
+
 .textarea__item {
 	width: 300px;
 	height: 150px;
@@ -188,8 +205,7 @@ button._active {
 	color: #fff;
 	background-color: rgb(44, 43, 43);
 }
-.textarea__counter {
-}
+
 
 .scroll {
 	position: fixed;
@@ -201,5 +217,3 @@ button._active {
 	color: #fff;
 }
 
-.image {
-}

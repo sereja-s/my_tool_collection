@@ -19,44 +19,67 @@
 			<!-- Использование атрибута HTML -->
 			<!-- <button onclick="console.log('Клик!')" type="button" class="button">Нажми на меня!</button> -->
 
+
+
 			<!-- Использование DOM объекта и методов addEventListener/removeEventListener -->
 			<button type="button" class="button"><span>Нажми на меня!<span></button>
 
+
+
 			<!-- Всплытие и погружение -->
-			<!-- 
-				<div class="block">
-					Блок
-					<div class="block__inner">
-						Блок второго уровня
-						<div class="block__inner-inner">
-							Блок третьего уровня
-						</div>
+			<div class="block">
+				Блок
+				<div class="block__inner">
+					Блок второго уровня
+					<div class="block__inner-inner">
+						Блок третьего уровня
 					</div>
 				</div>
-				 -->
+			</div>
+
+
 
 			<!-- Делегирование событий -->
-			<!-- 
-				<button type="button" class="button"><span>Нажми на меня!</span></button>
-				<button type="button" class="button">И на меня!</button>
-				<button type="button" class="button">И на меня!</button>
-				<button type="button" class="button">И на меня!</button>
- 				-->
+			<div class="lesson__del">
+				<button type="button" class="button__del"><span>Нажми на меня!</span></button>
+				<button type="button" class="button__del">И на меня!</button>
+				<button type="button" class="button__del">И на меня!</button>
+				<button type="button" class="button__del">И на меня!</button>
+			</div>
+
 			<!-- Пример с меню -->
-			<!-- 
-				<nav class="menu">
-					<button type="button" class="menu__button">
-						<span>Открыть меню</span>
-						<span>Закрыть меню</span>
-					</button>
-					<ul hidden class="menu__list">
-						<li><a href="" class="menu__link">Пункт №1</a></li>
-						<li><a href="" class="menu__link">Пункт №2</a></li>
-						<li><a href="" class="menu__link">Пункт №3</a></li>
-						<li><a href="" class="menu__link">Пункт №4</a></li>
-					</ul>
-				</nav>
-				 -->
+			<nav class="menu">
+				<button type="button" class="menu__button">
+					<span>Открыть меню</span>
+					<span>Закрыть меню</span>
+				</button>
+				<ul hidden class="menu__list">
+					<li><a href="" class="menu__link">Пункт №1</a></li>
+					<li><a href="" class="menu__link">Пункт №2</a></li>
+					<li><a href="" class="menu__link">Пункт №3</a></li>
+					<li><a href="" class="menu__link">Пункт №4</a></li>
+				</ul>
+			</nav>
+
+			<!-- меню с разными кнопками состыкуем с соответствующими методами -->
+			<div id="menu">
+				<button data-action="save" class="menu-action">Сохранить</button>
+				<button data-action="load" class="menu-action">Загрузить</button>
+				<button data-action="search" class="menu-action">Поиск</button>
+			</div>
+
+			<!-- Поведение: «Счётчик» -->
+			Счётчик: <input type="button" value="1" data-counter>
+			Ещё счётчик: <input type="button" value="2" data-counter>
+
+			<!-- Поведение: «Переключатель» (Toggler) -->
+			<button data-toggle-id="subscribe-mail">
+				Показать форму подписки
+			</button>
+			<form id="subscribe-mail" hidden>
+				Ваша почта: <input type="email">
+			</form>
+
 
 
 			<!-- Действия браузера по умолчанию -->
