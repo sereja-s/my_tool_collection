@@ -596,91 +596,120 @@ const blockForMouse = document.querySelector('.block-for-mouse');
 // повесим на него событие: mousemove (вызывается при движении мыши над элементом)
 blockForMouse.addEventListener("mousemove", function (event) {
 	// выведем в этот объект(поле) координаты курсора относительно окна браузера
-	blockForMouse.innerHTML =
-		`clientX - ${event.clientX} <br> clientY - ${event.clientY}`;
+	blockForMouse.innerHTML = `clientX - ${event.clientX} <br> clientY - ${event.clientY}`;
 });
 
 //====================================================================================================================//
 
-// Наведение мыши: mouseover/out, mouseenter/leave
+// Движение мыши: mouseover/out, mouseenter/leave
 
-//События mouseover/mouseout, relatedTarget
+// В этой главе мы более подробно рассмотрим события, возникающие при движении указателя мыши над элементами страницы.
 
-/*
-Событие mouseover происходит в момент, когда курсор оказывается
-над элементом, а событие mouseout – в момент,
-когда курсор уходит с элемента.
-*/
-/*
-const blockForMouse = document.querySelector('.block-for-mouse');
+// События mouseover/mouseout, relatedTarget
 
-blockForMouse.addEventListener("mouseover", function (event) {
-	blockForMouse.innerHTML = `Курсор над элементом`;
+// Событие mouseover происходит в момент, когда курсор оказывается над элементом, а событие mouseout – в момент, когда курсор уходит с элемента.
+
+
+const blockForMouse2 = document.querySelector('.block-for-mouse-2'); // объект получен
+
+blockForMouse2.addEventListener("mouseover", function (event) {
+	blockForMouse2.innerHTML = `Курсор над элементом`;
 });
-blockForMouse.addEventListener("mouseout", function (event) {
-	blockForMouse.innerHTML = `Курсор уходит с элемента`;
+blockForMouse2.addEventListener("mouseout", function (event) {
+	blockForMouse2.innerHTML = `Курсор уходит с элемента`;
 });
-*/
 
-/*
-Эти события являются особенными, потому что у них имеется свойство
-relatedTarget. Оно «дополняет» target. Когда мышь переходит
-с одного элемента на другой, то один из них будет target,
-а другой relatedTarget.
 
-Для события mouseover:
-event.target – это элемент, на который курсор перешёл.
-event.relatedTarget – это элемент,
-с которого курсор ушёл(relatedTarget → target).
+// Эти события являются особенными, потому что у них имеется свойство relatedTarget. Оно «дополняет» target. Когда мышь
+// переходит с одного элемента на другой, то один из них будет target, а другой relatedTarget.
 
-Для события mouseout наоборот:
-event.target – это элемент, с которого курсор ушёл.
-event.relatedTarget – это элемент,
-на который курсор перешёл(target → relatedTarget).
-*/
-/*
-const blockForMouse = document.querySelector('.block-for-mouse');
+// Для события mouseover:
 
-blockForMouse.addEventListener("mouseover", function (event) {
+// - event.target – это элемент, на который курсор перешёл.
+// - event.relatedTarget – это элемент, с которого курсор ушёл (relatedTarget → target).
+
+// Для события mouseout наоборот:
+
+// - event.target – это элемент, с которого курсор ушёл.
+// - event.relatedTarget – это элемент, на который курсор перешёл (target → relatedTarget)да курсор уходит с элемента.
+
+const blockForMouse3 = document.querySelector('.block-for-mouse-3'); // объект получен 
+
+blockForMouse3.addEventListener("mouseover", function (event) {
 	console.log(event.target);
 	console.log(event.relatedTarget);
 });
-blockForMouse.addEventListener("mouseout", function (event) {
+blockForMouse3.addEventListener("mouseout", function (event) {
 	console.log(event.target);
 	console.log(event.relatedTarget);
-});
-*/
+})
 
-/*
-const blockForMouse = document.querySelector('.block-for-mouse');
+//--------------------------------------------------------------------------------------------------------------------//
 
-blockForMouse.addEventListener("mouseover", function (event) {
+// Событие mouseout при переходе на потомка
+
+// Важная особенность события mouseout – оно генерируется в том числе, когда указатель переходит с элемента на его потомка. То есть, визуально указатель всё ещё на элементе, но мы получим mouseout!
+
+// Это выглядит странно, но легко объясняется:
+
+// По логике браузера, курсор мыши может быть только над одним элементом в любой момент времени – над самым глубоко вложенным и верхним по z-index.
+
+// Таким образом, если курсор переходит на другой элемент (пусть даже дочерний), то он покидает предыдущий.
+
+
+// Обратите внимание на важную деталь:
+
+// Событие mouseover, происходящее на потомке, всплывает. Поэтому если на родительском элементе есть такой обработчик, то оно его вызовет
+
+const blockForMouse4 = document.querySelector('.block-for-mouse-4');
+
+blockForMouse4.addEventListener("mouseover", function (event) {
 	console.log(`Курсор над элементом`);
 });
-blockForMouse.addEventListener("mouseout", function (event) {
+blockForMouse4.addEventListener("mouseout", function (event) {
 	console.log(`Курсор уходит с элемента`);
 });
-*/
 
+// Если код внутри обработчиков не смотрит на target, то он подумает, что мышь ушла с элемента parent и вернулась на него обратно. Но это не так! Мышь никуда не уходила, она просто перешла на потомка.
+
+// Если при уходе с элемента что-то происходит, например, запускается анимация, то такая интерпретация происходящего может давать нежелательные побочные эффекты.
+
+// Чтобы этого избежать, можно смотреть на relatedTarget и, если мышь всё ещё внутри элемента, то игнорировать такие события.
+
+// Или же можно использовать другие события: mouseenter и mouseleave, которые мы сейчас изучим, с ними такая проблема не возникает
+
+//-------------------------------------------------------------------------------------------------------------------//
 
 // События mouseenter и mouseleave
-/*
-Пара важных отличий:
-1) Переходы внутри элемента, на его потомки и с них, не считаются.
-2) События mouseenter / mouseleave не всплывают.
-*/
-/*
-const blockForMouse = document.querySelector('.block-for-mouse');
 
-blockForMouse.addEventListener("mouseenter", function (event) {
+// События mouseenter/mouseleave похожи на mouseover/mouseout. Они тоже генерируются, когда курсор мыши переходит на элемент или покидает его.
+
+// Но есть и пара важных отличий:
+
+// - Переходы внутри элемента, на его потомки и с них, не считаются.
+// - События mouseenter/mouseleave не всплывают.
+
+// События mouseenter/mouseleave предельно просты и понятны.
+
+// Когда указатель появляется над элементом – генерируется mouseenter, причём не имеет значения, где именно указатель: на самом элементе или на его потомке.
+
+// Событие mouseleave происходит, когда курсор покидает элемент
+
+const blockForMouse5 = document.querySelector('.block-for-mouse-5');
+
+blockForMouse5.addEventListener("mouseenter", function (event) {
 	console.log(`Курсор над элементом`);
 });
-blockForMouse.addEventListener("mouseleave", function (event) {
+blockForMouse5.addEventListener("mouseleave", function (event) {
 	console.log(`Курсор уходит с элемента`);
 });
-*/
 
-//Делегирование событий наведения мыши
+//-------------------------------------------------------------------------------------------------------------------//
+
+// Делегирование событий
+
+// События mouseenter/leave просты и легки в использовании. Но они не всплывают. Таким образом, мы не можем их делегировать Что ж, не проблема – будем использовать mouseover/mouseout:
+
 /*
 const blockForMouse = document.querySelector('.block-for-mouse');
 blockForMouse.addEventListener("mouseover", function (event) {
