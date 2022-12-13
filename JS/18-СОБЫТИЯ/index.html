@@ -115,7 +115,7 @@
 
 
 			<!-- Пример делегирования наведения мыши -->
-			<div class="block-for-mouse">
+			<div class="block-for-mouse-6">
 				<span>1</span>
 				<span>2</span>
 				<span>3</span>
@@ -130,23 +130,59 @@
 
 
 			<!-- Перетаскивание Drag`n`Drop -->
-			<!--  
-				<div class="drag-field">
-					<div class="drag-field__item"></div>
-					<div class="drag-field__point"></div>
-				</div>
-				-->
+			<div class="drag-field">
+				<div class="drag-field__item"></div>
+				<div class="drag-field__point"></div>
+			</div>
+
+			<p>Перетащите мяч.</p>
+
+			<img src="https://en.js.cx/clipart/soccer-gate.svg" id="gate" class="droppable">
+
+			<img src="https://en.js.cx/clipart/ball.svg" id="ball">
+
 
 			<!-- Клавиатура -->
-			<!-- 
-				<div class="textarea">
-					<textarea autocomplete="off" maxlength="30" name="form[]" class="textarea__item"></textarea>
-					<div class="textarea__counter">Осталось <span></span> символов</div>
-				</div>
-				 -->
+			<h3>Тестовый стенд</h3>
+			<p>Для того, чтобы лучше понять, как работают события клавиатуры, можно использовать тестовый стенд ниже.
+
+				Сфокусируйтесь на поле и нажмите какую-нибудь клавишу</p>
+			<form id="form" onsubmit="return false">
+
+				Предотвратить действие по умолчанию для:
+				<label>
+					<input type="checkbox" name="keydownStop" value="1"> keydown</label>&nbsp;&nbsp;&nbsp;
+				<label>
+					<input type="checkbox" name="keyupStop" value="1"> keyup</label>
+
+				<p>
+					Игнорировать:
+					<label>
+						<input type="checkbox" name="keydownIgnore" value="1"> keydown</label>&nbsp;&nbsp;&nbsp;
+					<label>
+						<input type="checkbox" name="keyupIgnore" value="1"> keyup</label>
+				</p>
+
+				<p>Сфокусируйтесь на поле и нажмите какую-нибудь клавишу.</p>
+
+				<input type="text" placeholder="Клавишу нажимать тут" id="kinput">
+
+				<textarea id="area"></textarea>
+				<input type="button" value="Очистить" onclick="area.value = ''" />
+			</form>
+
+
+
+			<!-- счётчик символов котрые можно ввести в данное поле -->
+			<div class="textarea">
+				<textarea autocomplete="off" maxlength="30" name="form[]" class="textarea__item"></textarea>
+				<div class="textarea__counter">Осталось <span></span> символов</div>
+			</div>
+
+
 
 			<!-- Загрузка страницы -->
-			<!-- <img class="image" src="img/cover.jpg" alt=""> -->
+			<img class="image" src="img/День рождения Милены.jpg" alt="">
 
 
 		</div>
