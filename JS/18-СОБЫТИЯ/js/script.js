@@ -1096,16 +1096,20 @@ const txtItemLimit = txtItem.getAttribute('maxlength');
 const txtCounter = document.querySelector('.textarea__counter span');
 txtCounter.innerHTML = txtItemLimit;
 
-txtItem.addEventListener("keyup", txtSetCounter);
+//txtItem.addEventListener("keyup", txtSetCounter);
 // реализуем корректную работу при возникновении событий, вызванных автоповтором
-txtItem.addEventListener("keydown", function (event) {
-	if (event.repeat) txtSetCounter();
-});
+//txtItem.addEventListener("keydown", function (event) {
+//if (event.repeat) txtSetCounter();
+//});
+
+// 2-ой вариант реализации (из урока: JS-19)
+txtItem.addEventListener("input", txtSetCounter);
 
 function txtSetCounter() {
 	const txtCounterResult = txtItemLimit - txtItem.value.length;
 	txtCounter.innerHTML = txtCounterResult;
 }
+
 
 
 // доработаем имеющееся на странице раскрывающееся меню (добавим возможность закрыть при нажатии клавиши: Escape)
